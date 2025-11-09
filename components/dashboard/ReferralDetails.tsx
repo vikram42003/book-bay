@@ -1,13 +1,13 @@
 import { getReferralDetails } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
-const ReferralDetails = ({ referrerId }: { referrerId: string }) => {
+const ReferralDetails = ({ userId }: { userId: string }) => {
   const [referralDetails, setReferralDetails] = useState<{ total: number; converted: number } | null>(null);
 
   useEffect(() => {
     const fetchReferralDetails = async () => {
       try {
-        const details = await getReferralDetails(referrerId);
+        const details = await getReferralDetails(userId);
         setReferralDetails(details);
       } catch (error) {
         console.error("Failed to fetch referral details:", error);
@@ -15,7 +15,7 @@ const ReferralDetails = ({ referrerId }: { referrerId: string }) => {
     };
 
     fetchReferralDetails();
-  }, [referrerId]);
+  }, [userId]);
 
   if (!referralDetails) {
     return <div>Loading referral details...</div>;

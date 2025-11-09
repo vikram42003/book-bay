@@ -1,4 +1,14 @@
-import { BookType, bookZodSchema, OrderItemInput, OrderType, orderZodSchema, ReferralType, referralZodSchema } from "@/types/types";
+import {
+  BookType,
+  bookZodSchema,
+  OrderItemInput,
+  OrderType,
+  orderZodSchema,
+  ReferralType,
+  referralZodSchema,
+  UserType,
+  userZodSchema,
+} from "@/types/types";
 import ENV from "./env";
 import { getToken } from "./authToken";
 import { OrderStoreItem } from "@/stores/orderStore";
@@ -82,4 +92,17 @@ export const purchaseItems = async (
     parsedReferral = referralZodSchema.parse(res.referral);
   }
   return { order: parsedOrder, referral: parsedReferral };
+};
+
+export const getCurrentUserDetails = async (): Promise<UserType> => {
+  const token = getToken();
+  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/users/me", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const user = await res.json();
+  const parsedUser = userZodSchema.parse(user);
+  return parsedUser;
 };

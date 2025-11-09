@@ -25,10 +25,10 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-blue-100 py-4 px-12 shadow-lg">
       <div className="mx-auto flex justify-between items-center">
-        <div className="text-lg font-semibold">
+        <div className="text-xl font-semibold group">
           <Link href="/">
-            <span className="text-blue-700">Book</span>
-            <span className="text-blue-500">Bay</span>
+            <span className="text-blue-700 group-hover:text-blue-500 transition-colors duration-500 ease-in-out">Book</span>
+            <span className="text-blue-500 group-hover:text-blue-700 transition-colors duration-500 ease-in-out">Bay</span>
           </Link>
         </div>
 
