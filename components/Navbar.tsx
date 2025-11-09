@@ -1,12 +1,19 @@
 "use client";
 
-import { BookOpenIcon, ShoppingCartIcon, UserCircleIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import {
+  BookOpenIcon,
+  ShoppingCartIcon,
+  UserCircleIcon,
+  UserMinusIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 import { useUserStore } from "@/stores/storeProvider";
 
 const Navbar = () => {
   const user = useUserStore((s) => s.user);
+  const logout = useUserStore((s) => s.logout);
 
   return (
     <nav className="w-full bg-blue-100 py-4 px-12 shadow-lg">
@@ -30,12 +37,18 @@ const Navbar = () => {
                 <UserCircleIcon className="w-6 translate-y-px" />
                 Dashboard
               </Link>
+              <button onClick={() => logout()} className="navbar-link flex items-center gap-1 hover:custor-pointer">
+                <UserMinusIcon className="w-6 translate-y-px" />
+                Log Out
+              </button>
             </>
           ) : (
-            <Link href="/login" className="navbar-link flex items-center gap-1">
-              <UserPlusIcon className="w-6 translate-y-px" />
-              Login
-            </Link>
+            <>
+              <Link href="/login" className="navbar-link flex items-center gap-1">
+                <UserPlusIcon className="w-6 translate-y-px" />
+                Login
+              </Link>
+            </>
           )}
 
           <Link href="/cart" className="navbar-link flex items-center gap-1">

@@ -9,7 +9,7 @@ const UserNotLoggedIn = () => {
         <Link href="/login" className="font-bold text-blue-500 hover:text-blue-700">
           log in
         </Link>{" "}
-        to view your dashboard.
+        first.
       </p>
     </div>
   );

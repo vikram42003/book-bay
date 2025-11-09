@@ -27,7 +27,7 @@ const Book = ({ book }: { book: BookType }) => {
       <div className="mt-3">
         {quantity === 0 ? (
           <button
-            onClick={() => addItem(book.id, book.price)}
+            onClick={() => addItem(book)}
             className="w-full border-2 border-blue-500 hover:bg-blue-500 text-blue-700 hover:text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Add to Cart
@@ -44,7 +44,7 @@ const Book = ({ book }: { book: BookType }) => {
             <span className="text-lg font-semibold min-w-8 text-center">{quantity}</span>
 
             <button
-              onClick={() => addItem(book.id, book.price)}
+              onClick={() => addItem(book)}
               disabled={quantity >= MAX_STOCK}
               className={`w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-700 transition-colors ${
                 quantity >= MAX_STOCK

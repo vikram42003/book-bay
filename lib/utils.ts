@@ -1,17 +1,15 @@
-import { BookType, bookZodSchema, OrderType, orderZodSchema } from "@/types/types";
+import { BookType, bookZodSchema, OrderItemInput, OrderType, orderZodSchema } from "@/types/types";
 import ENV from "./env";
 import { getToken } from "./authToken";
+import { OrderStoreItem } from "@/stores/orderStore";
+
+// All utils throw an error if something goes wrong so that closest error boundary can handle it
 
 export const fetchAllBooks = async (revalidateTime: number = 300): Promise<BookType[]> => {
   const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/books", { next: { revalidate: revalidateTime } });
   const books = await res.json();
-  try {
-    const parsedBooks = books.map((book: unknown) => bookZodSchema.parse(book));
-    return parsedBooks;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Failed to fetch books");
-  }
+  const parsedBooks = books.map((book: unknown) => bookZodSchema.parse(book));
+  return parsedBooks;
 };
 
 export const getAllOrders = async (): Promise<OrderType> => {
@@ -31,13 +29,8 @@ export const getAllOrders = async (): Promise<OrderType> => {
   if (!res.ok) throw new Error("Failed to fetch orders");
 
   const orders = await res.json();
-  try {
-    const parsedOrders = orders.map((order: unknown) => orderZodSchema.parse(order));
-    return parsedOrders;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Failed to parse orders");
-  }
+  const parsedOrders = orders.map((order: unknown) => orderZodSchema.parse(order));
+  return parsedOrders;
 };
 
 export const getReferralDetails = async (referrerId: string): Promise<{ total: number; converted: number }> => {
@@ -53,4 +46,35 @@ export const getReferralDetails = async (referrerId: string): Promise<{ total: n
     throw new Error("Failed to fetch referrals");
 
   return { total: referrals.total, converted: referrals.converted };
+};
+
+// Discound feature has not been implemented since this project has already taken a of time and effort
+export const purchaseItems = async (
+  orderItems: OrderStoreItem[],
+  total: number,
+  discount: number = 0
+): Promise<OrderType> => {
+  const orderItemInput: OrderItemInput[] = orderItems.map((item) => ({
+    bookId: item.id,
+    quantity: item.quantity,
+  }));
+
+  const token = getToken();
+
+  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/orders", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      items: orderItemInput,
+      total,
+      discount,
+    }),
+  });
+
+  const order = await res.json();
+  const parsedOrder = orderZodSchema.parse(order);
+  return parsedOrder;
 };

@@ -1,11 +1,11 @@
 import { createStore } from "zustand/vanilla";
-import { OrderItemInput } from "@/types/types";
+import { BookType, OrderItemInput } from "@/types/types";
 
 // followed https://zustand.docs.pmnd.rs/guides/nextjs
 // + added logic for a combined store provider
 
-export type OrderStoreItem = OrderItemInput & {
-  price: number;
+export type OrderStoreItem = BookType & {
+  quantity: number;
 };
 
 export type OrderStoreState = {
@@ -14,7 +14,7 @@ export type OrderStoreState = {
 };
 
 export type OrderStoreActions = {
-  addItem: (bookId: string, price: number, quantity?: number) => void;
+  addItem: (book: BookType, quantity?: number) => void;
   removeItem: (bookId: string, quantity?: number) => void;
   clearItem: (bookId: string) => void;
   clearOrder: () => void;
@@ -40,24 +40,21 @@ export const createOrderStore = (initState: OrderStoreState = defaultInitState) 
   return createStore<OrderStore>()((set, get) => ({
     ...initState,
 
-    addItem: (bookId: string, price: number, quantity: number = 1) =>
+    addItem: (book: BookType, quantity: number = 1) => {
       set((state) => {
         const newItems = new Map(state.orderItems);
-        const existingItem = newItems.get(bookId);
+        const existingItem = newItems.get(book.id);
 
         if (existingItem) {
-          newItems.set(bookId, {
-            bookId,
-            quantity: existingItem.quantity + quantity,
-            price,
-          });
+          newItems.set(book.id, { ...existingItem, quantity: existingItem.quantity + quantity });
         } else {
-          newItems.set(bookId, { bookId, quantity, price });
+          newItems.set(book.id, { ...book, quantity });
         }
 
         const total = calculateTotal(newItems);
         return { orderItems: newItems, total };
-      }),
+      });
+    },
 
     removeItem: (bookId: string, quantity: number = 1) =>
       set((state) => {
@@ -90,8 +87,8 @@ export const createOrderStore = (initState: OrderStoreState = defaultInitState) 
 
     getOrderItemsArray: () => {
       const items = get().orderItems;
-      return Array.from(items.values()).map(({ bookId, quantity }) => ({
-        bookId,
+      return Array.from(items.values()).map(({ id, quantity }) => ({
+        bookId: id,
         quantity,
       }));
     },
