@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "stores/storeProvider.tsx"  ],
   "exclude": ["node_modules"]
 }
