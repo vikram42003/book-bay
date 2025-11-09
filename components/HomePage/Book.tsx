@@ -15,7 +15,7 @@ const Book = ({ book }: { book: BookType }) => {
   return (
     <div className="bg-blue-50 p-6 rounded-xl shadow-[2px_2px_5px_5px_#deeafc] flex flex-col justify-between">
       <div className="h-72 w-full relative">
-        <Image src={book.image} alt={`Image of ${book.title}`} fill className="object-cover rounded-md p-4" />
+        <Image src={book.image} alt={`Image of ${book.title}`} fill className="object-cover rounded-md px-4" />
       </div>
 
       <div className="mt-2 text-sm flex flex-col">
@@ -28,7 +28,7 @@ const Book = ({ book }: { book: BookType }) => {
         {quantity === 0 ? (
           <button
             onClick={() => addItem(book.id, book.price)}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+            className="w-full border-2 border-blue-500 hover:bg-blue-500 text-blue-700 hover:text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Add to Cart
           </button>
@@ -36,8 +36,8 @@ const Book = ({ book }: { book: BookType }) => {
           <div className="flex items-center justify-center gap-3">
             <button
               onClick={() => removeItem(book.id)}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
-              aria-label="Decrease quantity"
+              className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-700 hover:bg-blue-500 hover:text-white transition-colors"
+              aria-label="Decrease quantity by one"
             >
               <MinusIcon className="w-5 h-5" />
             </button>
@@ -47,10 +47,12 @@ const Book = ({ book }: { book: BookType }) => {
             <button
               onClick={() => addItem(book.id, book.price)}
               disabled={quantity >= MAX_STOCK}
-              className={`${
-                quantity >= MAX_STOCK ? "cursor-not-allowed" : "hover:bg-blue-600"
-              } w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white transition-colors`}
-              aria-label="Increase quantity"
+              className={`w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-700 transition-colors ${
+                quantity >= MAX_STOCK
+                  ? "cursor-not-allowed bg-blue-200 text-white border-blue-200"
+                  : "hover:bg-blue-500 hover:text-white"
+              }`}
+              aria-label="Increase quantity by one"
             >
               <PlusIcon className="w-5 h-5" />
             </button>

@@ -6,7 +6,7 @@ const BooksGrid = async () => {
   const books: BookType[] = await fetchAllBooks(300);
 
   return (
-    <div className="max-w-7xl my-12 mx-auto grid grid-cols-4 gap-12">
+    <div className="max-w-7xl my-16 mx-auto grid grid-cols-4 gap-12">
       {books.map((book) => (
         <Book key={book.id} book={book} />
       ))}

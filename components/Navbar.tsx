@@ -21,7 +21,7 @@ const Navbar = () => {
 
         {/* Left side */}
         <div className="flex items-center space-x-8">
-          <Link href="/books" className="navbar-link flex items-center gap-1">
+          <Link href="/" className="navbar-link flex items-center gap-1">
             <BookOpenIcon className="w-6 translate-y-px" />
             Browse Books
           </Link>
