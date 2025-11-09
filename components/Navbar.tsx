@@ -27,7 +27,7 @@ const Navbar = () => {
           </Link>
           {user ? (
             <>
-              <Link href="/account" className="navbar-link flex items-center gap-1">
+              <Link href="/dashboard" className="navbar-link flex items-center gap-1">
                 <UserCircleIcon className="w-6 translate-y-px" />
                 Dashboard
               </Link>

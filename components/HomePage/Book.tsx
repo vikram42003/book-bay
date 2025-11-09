@@ -13,8 +13,8 @@ const Book = ({ book }: { book: BookType }) => {
   const quantity = useOrderStore((state) => state.orderItems.get(book.id)?.quantity ?? 0);
 
   return (
-    <div className="bg-blue-50 p-6 rounded-xl shadow-[2px_2px_5px_5px_#deeafc] flex flex-col justify-between">
-      <div className="h-72 w-full relative">
+    <div className="bg-blue-100 p-6 rounded-xl shadow-[3px_3px_0px_5px_#a1bae3] flex flex-col justify-between hover:scale-102 transition-transform duration-300">
+      <div className="h-50 w-full relative">
         <Image src={book.image} alt={`Image of ${book.title}`} fill className="object-cover rounded-md px-4" />
       </div>
 
@@ -37,7 +37,6 @@ const Book = ({ book }: { book: BookType }) => {
             <button
               onClick={() => removeItem(book.id)}
               className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-700 hover:bg-blue-500 hover:text-white transition-colors"
-              aria-label="Decrease quantity by one"
             >
               <MinusIcon className="w-5 h-5" />
             </button>
@@ -52,7 +51,6 @@ const Book = ({ book }: { book: BookType }) => {
                   ? "cursor-not-allowed bg-blue-200 text-white border-blue-200"
                   : "hover:bg-blue-500 hover:text-white"
               }`}
-              aria-label="Increase quantity by one"
             >
               <PlusIcon className="w-5 h-5" />
             </button>
