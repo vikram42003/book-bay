@@ -3,7 +3,7 @@
 import UserNotLoggedIn from "@/components/UserNotLoggedIn";
 import { purchaseItems } from "@/lib/utils";
 import { useOrderStore, useUserStore } from "@/stores/storeProvider";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const router = useRouter();
@@ -16,11 +16,12 @@ export default function CartPage() {
   const handlePurchase = async () => {
     const { order, referral } = await purchaseItems(cartItemsArray, total);
     const params = new URLSearchParams();
-    params.set("order", JSON.stringify(order));
+    params.set("status", "success");
+    params.set("orderId", order.id);
     if (referral) {
       params.set("referral", "true");
     }
-    router.push("/reciept");
+    router.push(`/reciept?${params.toString()}`);
   };
 
   return (

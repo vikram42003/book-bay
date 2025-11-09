@@ -27,21 +27,28 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
     setUser: (user: UserType | null) => set({ user }),
 
     register: async (username, password, referralCode) => {
-      const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/users/register", {
+      const rawRes = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, referralCode }),
       });
 
-      if (!res.ok) throw new Error("Failed to register user");
+      const res = await rawRes.json();
 
-      const { user, token } = await res.json();
+      if (!rawRes.ok) {
+        if (res.error === "Duplicate username") {
+          throw new Error("Username already exists");
+        }
+        throw new Error(res.error || "Failed to register user");
+      }
+
+      const { user, token } = res;
 
       let parsedUser = null;
       try {
         parsedUser = userZodSchema.parse(user);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Failed to parse user");
       }
 
@@ -50,7 +57,8 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
 
       setToken(token);
       set({ user: parsedUser });
-      return user;
+
+      return parsedUser;
     },
 
     login: async (username, password) => {

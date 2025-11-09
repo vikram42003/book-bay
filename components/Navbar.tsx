@@ -10,10 +10,17 @@ import {
 import Link from "next/link";
 
 import { useUserStore } from "@/stores/storeProvider";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const user = useUserStore((s) => s.user);
   const logout = useUserStore((s) => s.logout);
+
+  const handleLogout = () => {
+    logout()
+    router.push("/")
+  }
 
   return (
     <nav className="w-full bg-blue-100 py-4 px-12 shadow-lg">
@@ -37,7 +44,7 @@ const Navbar = () => {
                 <UserCircleIcon className="w-6 translate-y-px" />
                 Dashboard
               </Link>
-              <button onClick={() => logout()} className="navbar-link flex items-center gap-1 cursor-pointer">
+              <button onClick={() => handleLogout()} className="navbar-link flex items-center gap-1 cursor-pointer">
                 <UserMinusIcon className="w-6 translate-y-px" />
                 Log Out
               </button>

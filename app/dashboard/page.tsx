@@ -27,7 +27,7 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              {user.referrerId && <ReferralDetails referrerId={user.referrerId} />}
+              {user.referrerId && <ReferralDetails referrerId={user.id} />}
             </div>
           </div>
         ) : (
