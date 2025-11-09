@@ -1,7 +1,8 @@
 "use client";
 
-import Orders from "@/components/dashboard/Orders";
+// import Orders from "@/components/dashboard/Orders";
 import ReferralDetails from "@/components/dashboard/ReferralDetails";
+import UserNotLoggedIn from "@/components/UserNotLoggedIn";
 import { useUserStore } from "@/stores/storeProvider";
 import Link from "next/link";
 
@@ -31,18 +32,12 @@ export default function DashboardPage() {
           </div>
         ) : (
           <>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800 mb-4">You are not logged in!</h1>
-              <p className="text-gray-600">
-                Please{" "}
-                <Link href="/login" className="font-bold text-blue-500 hover:text-blue-700">
-                  log in
-                </Link>{" "}
-                to view your dashboard.
-              </p>
-            </div>
+            <UserNotLoggedIn />
           </>
         )}
+
+        {/* FINISH IMPLEMENTING THIS IF YOU HAVE TIME. THE UTIL FUNC HAS ALREADY BEEN CREATED */}
+        {/* <Orders /> */}
       </div>
     </div>
   );
