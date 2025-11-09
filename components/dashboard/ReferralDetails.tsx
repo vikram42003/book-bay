@@ -1,0 +1,35 @@
+import { getReferralDetails } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
+const ReferralDetails = ({ referrerId }: { referrerId: string }) => {
+  const [referralDetails, setReferralDetails] = useState<{ total: number; converted: number } | null>(null);
+
+  useEffect(() => {
+    const fetchReferralDetails = async () => {
+      try {
+        const details = await getReferralDetails(referrerId);
+        setReferralDetails(details);
+      } catch (error) {
+        console.error("Failed to fetch referral details:", error);
+      }
+    };
+
+    fetchReferralDetails();
+  }, [referrerId]);
+
+  if (!referralDetails) {
+    return <div>Loading referral details...</div>;
+  }
+
+  return (
+    <div className="p-4 border rounded-lg bg-gray-50 flex flex-col justify-between">
+      <p className="text-sm text-gray-500">Your Referrals</p>
+      <p className="text-lg">
+        <span className="font-semibold">{referralDetails.converted}</span> converted out of{" "}
+        <span className="font-semibold">{referralDetails.total}</span>
+      </p>
+    </div>
+  );
+};
+
+export default ReferralDetails;

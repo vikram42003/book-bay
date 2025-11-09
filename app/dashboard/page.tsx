@@ -1,62 +1,47 @@
 "use client";
 
-import { getAllOrders, getReferralDetails } from "@/lib/utils";
+import Orders from "@/components/dashboard/Orders";
+import ReferralDetails from "@/components/dashboard/ReferralDetails";
 import { useUserStore } from "@/stores/storeProvider";
-import { OrderType } from "@/types/types";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
   const user = useUserStore((s) => s.user);
-  const [refferalDetails, setReferralDetails] = useState<{ total: number; converted: number } | null>(null);
-  const [orders, setOrders] = useState<OrderType | null>(null);
-
-  useEffect(() => {
-    const fetchInfo = async () => {
-      const ordersResponse = await getAllOrders();
-      setOrders(ordersResponse);
-      const referralDetailsResponse = await getReferralDetails(user!.id);
-      setReferralDetails(referralDetailsResponse);
-
-      console.log(ordersResponse);
-      console.log(referralDetailsResponse);
-    };
-
-    if (user) {
-      fetchInfo();
-    }
-  }, [user]);
 
   return (
-    <div className="flex justify-center py-12">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm text-center">
+    <div className="max-w-7xl mx-auto flex justify-center py-12">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full text-center">
         {user ? (
-          <div>
+          <div className="flex flex-col items-center">
             <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
-            <div className="space-y-4 text-left">
-              <div className="p-4 border rounded-lg bg-gray-50">
+            <div className="flex flex-wrap justify-center gap-4 w-full max-w-4xl">
+              <div className="p-4 border rounded-lg bg-gray-50 flex flex-col justify-between">
                 <p className="text-sm text-gray-500">Your Credits</p>
                 <p className="text-2xl font-semibold text-blue-600">{user.credits}</p>
               </div>
-              <div className="p-4 border rounded-lg bg-gray-50">
+              <div className="p-4 border rounded-lg bg-gray-50 flex flex-col justify-between">
                 <p className="text-sm text-gray-500">Your Referral Code</p>
                 <p className="text-lg font-mono text-gray-700 bg-gray-200 px-2 py-1 rounded inline-block mt-1">
                   {user.referralCode}
                 </p>
               </div>
+
+              {user.referrerId && <ReferralDetails referrerId={user.referrerId} />}
             </div>
           </div>
         ) : (
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">You are not logged in!</h1>
-            <p className="text-gray-600">
-              Please{" "}
-              <Link href="/login" className="font-bold text-blue-500 hover:text-blue-700">
-                log in
-              </Link>{" "}
-              to view your dashboard.
-            </p>
-          </div>
+          <>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800 mb-4">You are not logged in!</h1>
+              <p className="text-gray-600">
+                Please{" "}
+                <Link href="/login" className="font-bold text-blue-500 hover:text-blue-700">
+                  log in
+                </Link>{" "}
+                to view your dashboard.
+              </p>
+            </div>
+          </>
         )}
       </div>
     </div>

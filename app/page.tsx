@@ -1,4 +1,4 @@
-import BooksGrid from "@/components/HomePage/BooksGrid";
+import BooksGrid from "@/components/homepage/BooksGrid";
 
 export default function HomePage() {
   return (

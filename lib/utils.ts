@@ -41,7 +41,7 @@ export const getAllOrders = async (): Promise<OrderType> => {
 };
 
 export const getReferralDetails = async (referrerId: string): Promise<{ total: number; converted: number }> => {
-  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/referrals/" + referrerId);
+  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/referrals/stats/" + referrerId);
   const referrals = await res.json();
 
   if (
