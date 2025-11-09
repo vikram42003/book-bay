@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { BookType } from "@/types/types";
 import { useOrderStore } from "@/stores/storeProvider";
-import { useShallow } from "zustand/shallow";
+
+const MAX_STOCK = 5;
 
 const Book = ({ book }: { book: BookType }) => {
-  // ✅ These are fine because they return primitives/stable references
   const addItem = useOrderStore((state) => state.addItem);
   const removeItem = useOrderStore((state) => state.removeItem);
-  // ✅ Only subscribe to the specific item you need
   const quantity = useOrderStore((state) => state.orderItems.get(book.id)?.quantity ?? 0);
 
   return (
@@ -21,14 +21,40 @@ const Book = ({ book }: { book: BookType }) => {
       <div className="mt-2 text-sm flex flex-col">
         <span className="font-semibold truncate">{book.title}</span>
         <span className="text-gray-600 truncate">{book.author}</span>
-        <span className="font-bold mt-1">${book.price}</span>
+        <span className="font-bold mt-2">₹{book.price.toFixed(2)}</span>
       </div>
 
-      <div>
-        {!quantity ? (
-          <button onClick={() => addItem(book.id, book.price)}>Add to cart</button>
+      <div className="mt-3">
+        {quantity === 0 ? (
+          <button
+            onClick={() => addItem(book.id, book.price)}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          >
+            Add to Cart
+          </button>
         ) : (
-          <button onClick={() => removeItem(book.id)}>Remove item</button>
+          <div className="flex items-center justify-center gap-3">
+            <button
+              onClick={() => removeItem(book.id)}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+              aria-label="Decrease quantity"
+            >
+              <MinusIcon className="w-5 h-5" />
+            </button>
+
+            <span className="text-lg font-semibold min-w-8 text-center">{quantity}</span>
+
+            <button
+              onClick={() => addItem(book.id, book.price)}
+              disabled={quantity >= MAX_STOCK}
+              className={`${
+                quantity >= MAX_STOCK ? "cursor-not-allowed" : "hover:bg-blue-600"
+              } w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white transition-colors`}
+              aria-label="Increase quantity"
+            >
+              <PlusIcon className="w-5 h-5" />
+            </button>
+          </div>
         )}
       </div>
     </div>
