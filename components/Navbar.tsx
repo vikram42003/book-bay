@@ -3,7 +3,7 @@
 import { BookOpenIcon, ShoppingCartIcon, UserCircleIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore } from "@/stores/storeProvider";
 
 const Navbar = () => {
   const user = useUserStore((s) => s.user);

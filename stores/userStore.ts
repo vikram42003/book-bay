@@ -1,10 +1,5 @@
-// user-store.ts
 import { UserType } from "@/types/types";
-import { useContext } from "react";
 import { createStore } from "zustand/vanilla";
-import { useStore } from "zustand";
-
-import { StoresContext } from "./storeProvider";
 
 // followed https://zustand.docs.pmnd.rs/guides/nextjs
 // + added logic for a combined store provider
@@ -28,14 +23,4 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
     ...initState,
     setUser: (user: UserType | null) => set({ user }),
   }));
-};
-
-export const useUserStore = <T>(selector: (store: UserStore) => T): T => {
-  const storesContext = useContext(StoresContext);
-
-  if (!storesContext) {
-    throw new Error(`useUserStore must be used within StoreProvider`);
-  }
-
-  return useStore(storesContext.userStore, selector);
 };
