@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllOrders } from "@/lib/utils";
+import { getAllOrders, getReferralDetails } from "@/lib/utils";
 import { useUserStore } from "@/stores/storeProvider";
 import { OrderType } from "@/types/types";
 import Link from "next/link";
@@ -8,15 +8,18 @@ import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
   const user = useUserStore((s) => s.user);
-  const [refferalDetails, setReferralDetails] = useState<{ total: number, converted: number } | null>(null);
+  const [refferalDetails, setReferralDetails] = useState<{ total: number; converted: number } | null>(null);
   const [orders, setOrders] = useState<OrderType | null>(null);
 
   useEffect(() => {
     const fetchInfo = async () => {
       const ordersResponse = await getAllOrders();
-      const referralDetailsResponse = await 
-      console.log(ordersResponse);
       setOrders(ordersResponse);
+      const referralDetailsResponse = await getReferralDetails(user!.id);
+      setReferralDetails(referralDetailsResponse);
+
+      console.log(ordersResponse);
+      console.log(referralDetailsResponse);
     };
 
     if (user) {
