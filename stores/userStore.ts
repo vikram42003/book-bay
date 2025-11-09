@@ -1,4 +1,6 @@
-import { UserType } from "@/types/types";
+import { setToken } from "@/lib/authToken";
+import ENV from "@/lib/env";
+import { UserType, userZodSchema } from "@/types/types";
 import { createStore } from "zustand/vanilla";
 
 export type UserStoreState = {
@@ -25,7 +27,7 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
     setUser: (user: UserType | null) => set({ user }),
 
     register: async (username, password, referralCode) => {
-      const res = await fetch("/api/users/register", {
+      const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, referralCode }),
@@ -33,13 +35,26 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
 
       if (!res.ok) throw new Error("Failed to register user");
 
-      const user = (await res.json()) as UserType;
-      set({ user });
+      const { user, token } = await res.json();
+
+      let parsedUser = null;
+      try {
+        parsedUser = userZodSchema.parse(user);
+      } catch (error) {
+        console.log(error);
+        throw new Error("Failed to parse user");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(parsedUser));
+
+      setToken(token);
+      set({ user: parsedUser });
       return user;
     },
 
     login: async (username, password) => {
-      const res = await fetch("/api/users/login", {
+      const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -47,11 +62,29 @@ export const createUserStore = (initState: UserStoreState = defaultInitState) =>
 
       if (!res.ok) throw new Error("Failed to login");
 
-      const user = (await res.json()) as UserType;
-      set({ user });
+      const { user, token } = await res.json();
+
+      let parsedUser = null;
+      try {
+        parsedUser = userZodSchema.parse(user);
+      } catch (error) {
+        console.log(error);
+        throw new Error("Failed to parse user");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(parsedUser));
+
+      setToken(token);
+      set({ user: parsedUser });
       return user;
     },
 
-    logout: () => set({ user: null }),
+    logout: () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setToken(null);
+      set({ user: null });
+    },
   }));
 };
