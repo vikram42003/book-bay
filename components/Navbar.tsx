@@ -37,7 +37,7 @@ const Navbar = () => {
                 <UserCircleIcon className="w-6 translate-y-px" />
                 Dashboard
               </Link>
-              <button onClick={() => logout()} className="navbar-link flex items-center gap-1 hover:custor-pointer">
+              <button onClick={() => logout()} className="navbar-link flex items-center gap-1 cursor-pointer">
                 <UserMinusIcon className="w-6 translate-y-px" />
                 Log Out
               </button>
