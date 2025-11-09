@@ -1,10 +1,9 @@
-import UserTest from "@/components/UserTest";
+import BooksGrid from "@/components/HomePage/BooksGrid";
 
 export default function HomePage() {
   return (
     <div>
-      HELLO
-      <UserTest />
+      <BooksGrid />
     </div>
   );
 }
