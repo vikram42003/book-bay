@@ -2,7 +2,8 @@
 
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
-export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
+  console.log(error);
   return (
     <div className="text-center p-4">
       <FaceFrownIcon className="mx-auto w-12" />

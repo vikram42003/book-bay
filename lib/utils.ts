@@ -1,4 +1,4 @@
-import { BookType, bookZodSchema, OrderItemInput, OrderType, orderZodSchema } from "@/types/types";
+import { BookType, bookZodSchema, OrderItemInput, OrderType, orderZodSchema, ReferralType, referralZodSchema } from "@/types/types";
 import ENV from "./env";
 import { getToken } from "./authToken";
 import { OrderStoreItem } from "@/stores/orderStore";
@@ -53,7 +53,7 @@ export const purchaseItems = async (
   orderItems: OrderStoreItem[],
   total: number,
   discount: number = 0
-): Promise<OrderType> => {
+): Promise<{ order: OrderType; referral?: ReferralType }> => {
   const orderItemInput: OrderItemInput[] = orderItems.map((item) => ({
     bookId: item.id,
     quantity: item.quantity,
@@ -61,7 +61,7 @@ export const purchaseItems = async (
 
   const token = getToken();
 
-  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/orders", {
+  const rawRes = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -74,7 +74,12 @@ export const purchaseItems = async (
     }),
   });
 
-  const order = await res.json();
-  const parsedOrder = orderZodSchema.parse(order);
-  return parsedOrder;
+  const res = await rawRes.json();
+
+  const parsedOrder = orderZodSchema.parse(res.order);
+  let parsedReferral;
+  if (res.referral) {
+    parsedReferral = referralZodSchema.parse(res.referral);
+  }
+  return { order: parsedOrder, referral: parsedReferral };
 };

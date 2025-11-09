@@ -1,14 +1,27 @@
 "use client";
 
 import UserNotLoggedIn from "@/components/UserNotLoggedIn";
+import { purchaseItems } from "@/lib/utils";
 import { useOrderStore, useUserStore } from "@/stores/storeProvider";
+import { useRouter } from "next/router";
 
 export default function CartPage() {
+  const router = useRouter();
   const user = useUserStore((s) => s.user);
   const orderItems = useOrderStore((s) => s.orderItems);
   const total = useOrderStore((s) => s.total);
 
   const cartItemsArray = Array.from(orderItems.values());
+
+  const handlePurchase = async () => {
+    const { order, referral } = await purchaseItems(cartItemsArray, total);
+    const params = new URLSearchParams();
+    params.set("order", JSON.stringify(order));
+    if (referral) {
+      params.set("referral", "true");
+    }
+    router.push("/reciept");
+  };
 
   return (
     <div className="max-w-7xl mx-auto flex justify-center py-12">
@@ -29,7 +42,7 @@ export default function CartPage() {
             <p className="text-center text-gray-500">Your cart is empty.</p>
           )}
         </div>
-        
+
         {cartItemsArray.length > 0 && (
           <div className="mt-6 pt-6 border-t">
             <div className="flex justify-between items-center font-bold text-lg">
@@ -37,7 +50,10 @@ export default function CartPage() {
               <p>₹{total.toFixed(2)}</p>
             </div>
             {user ? (
-              <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <button
+                onClick={() => handlePurchase()}
+                className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
                 Purchase
               </button>
             ) : (
