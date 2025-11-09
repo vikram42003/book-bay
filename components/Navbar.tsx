@@ -7,7 +7,6 @@ import { useUserStore } from "@/stores/storeProvider";
 
 const Navbar = () => {
   const user = useUserStore((s) => s.user);
-  console.log("USER\n", user);
 
   return (
     <nav className="w-full bg-blue-100 py-4 px-12 shadow-lg">
