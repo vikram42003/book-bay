@@ -8,17 +8,19 @@ import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
   const user = useUserStore((s) => s.user);
+  const [refferalDetails, setReferralDetails] = useState<{ total: number, converted: number } | null>(null);
   const [orders, setOrders] = useState<OrderType | null>(null);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      const orders = await getAllOrders();
-      console.log(orders);
-      setOrders(orders);
+    const fetchInfo = async () => {
+      const ordersResponse = await getAllOrders();
+      const referralDetailsResponse = await 
+      console.log(ordersResponse);
+      setOrders(ordersResponse);
     };
 
     if (user) {
-      fetchOrders();
+      fetchInfo();
     }
   }, [user]);
 

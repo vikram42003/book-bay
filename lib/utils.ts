@@ -25,7 +25,7 @@ export const getAllOrders = async (): Promise<OrderType> => {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-    }
+    },
   });
 
   if (!res.ok) throw new Error("Failed to fetch orders");
@@ -38,4 +38,19 @@ export const getAllOrders = async (): Promise<OrderType> => {
     console.log(error);
     throw new Error("Failed to parse orders");
   }
+};
+
+export const getReferralDetails = async (referrerId: string): Promise<{ total: number; converted: number }> => {
+  const res = await fetch(ENV.NEXT_PUBLIC_API_URL + "/api/referrals/" + referrerId);
+  const referrals = await res.json();
+
+  if (
+    referrals.total == null ||
+    referrals.converted == null ||
+    typeof referrals.total !== "number" ||
+    typeof referrals.converted !== "number"
+  )
+    throw new Error("Failed to fetch referrals");
+
+  return { total: referrals.total, converted: referrals.converted };
 };
