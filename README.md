@@ -86,7 +86,7 @@ Follow these instructions to set up and run the project locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/vikram42003/book-bay
 cd book-bay-frontend
 ```
 
