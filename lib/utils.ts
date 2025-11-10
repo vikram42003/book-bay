@@ -4,6 +4,8 @@ import {
   OrderItemInput,
   OrderType,
   orderZodSchema,
+  PopulatedOrderType,
+  populatedOrderZodSchema,
   ReferralType,
   referralZodSchema,
   UserType,
@@ -22,7 +24,7 @@ export const fetchAllBooks = async (revalidateTime: number = 300): Promise<BookT
   return parsedBooks;
 };
 
-export const getAllOrders = async (): Promise<OrderType> => {
+export const getcurrentUsersAllOrders = async (): Promise<PopulatedOrderType[]> => {
   const token = getToken();
   if (!token) {
     throw new Error("No token found. User may not be logged in!");
@@ -39,7 +41,9 @@ export const getAllOrders = async (): Promise<OrderType> => {
   if (!res.ok) throw new Error("Failed to fetch orders");
 
   const orders = await res.json();
-  const parsedOrders = orders.map((order: unknown) => orderZodSchema.parse(order));
+
+  console.log(orders);
+  const parsedOrders = orders.map((order: unknown) => populatedOrderZodSchema.parse(order));
   return parsedOrders;
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-// import Orders from "@/components/dashboard/Orders";
+import Orders from "@/components/dashboard/Orders";
 import ReferralDetails from "@/components/dashboard/ReferralDetails";
 import UserNotLoggedIn from "@/components/UserNotLoggedIn";
 import { getCurrentUserDetails } from "@/lib/utils";
@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto flex justify-center py-12">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full text-center">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full text-center flex flex-col items-center">
         {user ? (
           <div className="flex flex-col items-center">
             <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
@@ -47,7 +47,7 @@ export default function DashboardPage() {
         )}
 
         {/* FINISH IMPLEMENTING THIS IF YOU HAVE TIME. THE UTIL FUNC HAS ALREADY BEEN CREATED */}
-        {/* <Orders /> */}
+        <Orders />
       </div>
     </div>
   );
