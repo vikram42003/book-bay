@@ -60,7 +60,7 @@ const Orders = () => {
                   </div>
                 </div>
 
-                <div className="space-y-1 text-left">
+                <div className="space-y-1 text-left border-b pb-6 last:border-b-0 last:pb-0">
                   {order.orderItems?.map((item) => (
                     <div key={item.id} className="text-sm flex items-center gap-2">
                       {/* Title - takes available space and truncates with ellipsis */}
