@@ -60,19 +60,21 @@ const Orders = () => {
                   </div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1 text-left">
                   {order.orderItems?.map((item) => (
-                    <div key={item.id} className="text-sm flex justify-between items-center">
-                      <span className="truncate pr-4">
-                        <span className="italic">
-                          {item.bookId.title} by {item.bookId.author}
-                        </span>
+                    <div key={item.id} className="text-sm flex items-center gap-2">
+                      {/* Title - takes available space and truncates with ellipsis */}
+                      <span className="flex-1 truncate italic">
+                        {item.bookId.title} by {item.bookId.author}
                       </span>
 
-                      <span className="text-gray-700">
+                      <span className="text-gray-700 whitespace-nowrap">
                         {item.quantity} x ₹{item.priceAtPurchase.toFixed(2)}
                       </span>
-                      <span className="font-medium whitespace-nowrap">₹{item.priceAtPurchase.toFixed(2)}</span>
+
+                      <span className="font-medium whitespace-nowrap ml-4">
+                        ₹{(item.priceAtPurchase * item.quantity).toFixed(2)}
+                      </span>
                     </div>
                   ))}
                 </div>

@@ -1,14 +1,15 @@
-"use client";
-
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function RecieptPage() {
-  const searchParams = useSearchParams();
-  const status = searchParams.get("status");
-  const orderId = searchParams.get("orderId");
-  const hasReferral = searchParams.get("referral") === "true";
+export default async function ReceiptPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string; orderId?: string; referral?: string }>;
+}) {
+  const params = await searchParams;
+  const status = params.status;
+  const orderId = params.orderId;
+  const hasReferral = params.referral === "true";
 
   return (
     <div className="max-w-2xl mx-auto flex justify-center py-12">
