@@ -5,6 +5,10 @@
 
 The core feature is a referral program where users can share a unique link, track their referral activity, and earn credits. When a new user signs up via a referral link and makes their first purchase, both the referrer and the new user are rewarded with credits, fostering a viral growth loop.
 
+**Live App url (Vercel)** - https://book-bay-eight.vercel.app/ \
+**Backend url (Render)** - https://book-bay-backend.onrender.com/ \
+**Backend repository url** - https://github.com/vikram42003/book-bay-backend
+
 ### Core Features:
 
 *   **Secure User Authentication**: Safe and secure user registration, login, and session management.
@@ -45,12 +49,12 @@ The core feature is a referral program where users can share a unique link, trac
 
 This project is built with a modern, scalable, and maintainable architecture, adhering to best practices in web development.
 
-*   **Frontend**: **Next.js (App Router)**, **TypeScript**, and **Tailwind CSS**. The UI is crafted from scratch without pre-built component libraries.
-*   **State Management**: **Zustand** is used for efficient, minimal, and boilerplate-free global state management, handling the user session and shopping cart.
-*   **Backend**: **Node.js** and **Express.js** with **TypeScript** provide a robust, type-safe RESTful API. The architecture is modular, separating concerns for scalability and maintainability.
-*   **Database**: **MongoDB** with **Mongoose** for flexible and scalable data modeling. Schemas are carefully designed to ensure data integrity and efficient querying for users, books, orders, and referrals.
-*   **Validation**: **Zod** is used for robust, end-to-end type-safe validation on both the client and server, ensuring data integrity from form inputs to the database.
-*   **Security**: Passwords are encrypted using **bcrypt**. Persistent authentication is managed with **JWTs** stored in client-side localStorage. Environment variables are handled via a `.env` file to keep secrets out of the codebase.
+*   **Frontend**: Next.js (App Router), TypeScript, and Tailwind CSS. The UI is crafted from scratch without pre-built component libraries.
+*   **State Management**: Zustand is used for efficient, minimal, and boilerplate-free global state management, handling the user session and shopping cart.
+*   **Backend**: Node.js and Express.js with TypeScript provide a robust, type-safe RESTful API. The architecture is modular, separating concerns for scalability and maintainability.
+*   **Database**: MongoDB with Mongoose for flexible and scalable data modeling. Schemas are carefully designed to ensure data integrity and efficient querying for users, books, orders, and referrals.
+*   **Validation**: Zod is used for robust, end-to-end type-safe validation on both the client and server, ensuring data integrity from form inputs to the database.
+*   **Security**: Passwords are encrypted using bcrypt. Persistent authentication is managed with JWTs stored in client-side localStorage. Environment variables are handled via a `.env` file to keep secrets out of the codebase.
 *   **Code Quality**: The codebase is fully typed with TypeScript, follows a modular structure, and uses ESLint to enforce a consistent and clean coding style. The TyepScript types are completely consistent between frontend and backend.
 
 ---
@@ -114,7 +118,8 @@ Open http://localhost:3000 in your browser to see the application.
 
 ## API Overview
 
-The frontend interacts with a separate Express backend through a set of REST API endpoints.  
+The frontend interacts with a separate Express backend through a set of REST API endpoints. For detailed request/response examples and the full Postman collection, please refer to the backend repository - https://book-bay-backend.onrender.com
+
 Below is a quick overview of the main routes used in the app:
 
 - **POST `/api/users/register`**  
@@ -137,8 +142,6 @@ Below is a quick overview of the main routes used in the app:
 
 - **GET `/api/referrals/stats/:userId`**  
   Returns referral statistics for a user (total sign-ups and conversions).
-
-For detailed request/response examples and the full Postman collection, please refer to the **backend repository**.
 
 
 ## Key Achievements & Engineering Decisions
