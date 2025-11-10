@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .font-merriweather {
+    font-family: var(--font-merriweather), serif;
+  }
+}
+
 @layer components {
   .navbar-link {
     @apply hover:text-blue-600 duration-300 transition-colors font-medium;
