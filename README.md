@@ -15,6 +15,7 @@ The core feature is a referral program where users can share a unique link, trac
 *   **Unique Referral Link Generation**: Every user receives a unique, shareable referral link upon registration.
 *   **Referral Tracking**: The system meticulously tracks the relationship between referrers and referred users, from sign-up to conversion.
 *   **Automated Credit System**: Both the referrer and the referred user automatically earn 2 credits upon the referred user's first successful purchase. The system prevents duplicate credit awards.
+*   **Data Integrity & Performance**: Uses advanced database features like MongoDB indices and transactions to ensure high database performance, data integrity, and ACID compliance.
 *   **Purchase Simulation**: A seamless "Buy Now" flow that simulates a real-world e-commerce transaction.
 *   **Interactive User Dashboard**: A central hub for users to monitor their referral statistics, credits, their referral link and a list of all their orders.
 *   **Fully documented API**: The express backend features a detailed postman collection with examples as well as a quick glance documentation for all api endpoints in backend's README.md
